@@ -1,0 +1,55 @@
+html {
+	background: #303030;
+     }
+
+body h1   {
+	font-family: Andale Mono, monospace;
+	color: #FFFFFF;
+	font-weight: normal;
+	text-align: center;
+     }
+
+#headingBorder {
+	border-bottom: 0.05em solid #C01B52;
+	position: absolute;
+	left: 45%;
+	right: 45%;
+               }
+
+body {
+	font-family: Trebuchet MS, Helvetica, sans-serif;
+	font-size: 130%;
+	color: #C8C8C8;
+	text-align: left;
+	position: absolute;
+	left: 15%;
+	right: 15%;
+     }
+
+.button {
+	background: #0DA58C;
+	color: #FFFFFF;
+	border: none;
+	font-size: 120%;
+	font-family: Trebuchet MS, Helvetica, sans-serif;
+        }
+
+.button:hover{
+	background: #0BC7AE;
+	     }
+
+code {
+	color: #0DA58C
+     }
+
+pre code {
+	background-color: #404040;
+	border: 1px solid #999;
+	display: block;
+	padding: 0.5em;
+	position: absolute;
+	left: 30%;
+	right: 30%;
+	text-align: left;
+        }
+
