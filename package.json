@@ -1,0 +1,25 @@
+{
+  "name": "team6",
+  "version": "1.0.0",
+  "description": "server for cs275 final project",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpeGit/team6-275.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dpeGit/team6-275/issues"
+  },
+  "homepage": "https://github.com/dpeGit/team6-275#readme"
+}
