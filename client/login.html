@@ -1,0 +1,119 @@
+<!doctype HTML>
+
+<html>
+	<title>Login Page</title>
+
+	<head>
+		<link type="text/css" rel="stylesheet" href="general.css" >
+		
+		
+		<script>
+			function verifyExisiting() {
+				var userName = (document.getElementById("ID").value);
+				var password = (document.getElementById("password").value);
+				if ( userName == "" || password == "") {
+					alert("PLEASE ENTER ALL FIELDS");
+					}
+				else {
+					alert("works here")
+					console.log(userName)
+					console.log(password)
+				
+				//CREATE AN AJAX CALL TO THE DATABASE HERE TO ENSURE THAT THE USERNAME AND PASSWORD ARE ALREADY REGISTERED
+			 }
+			}
+			
+			function verfiyNew() {
+				var name = (document.getElementById("name").value);
+				var userName = (document.getElementById("userName").value);
+				var pssw1 = (document.getElementById("newPass").value);
+				var pssw2 = (document.getElementById("newPass1").value);
+				if (name == "" || userName == "" || pssw1 == "" || pssw2 == ""){
+					alert("PLEASE ENTER ALL FIELDS");
+				}
+				else {
+					if (pssw1 != pssw2) {
+						alert("PASSWORDS DO NOT MATCH");
+					}
+					else {
+						send2server(name, userName, pssw1);
+					}
+				}
+			}	
+			
+			function send2server(name, userName, pssw1){
+				console.log(name)
+				console.log(userName)
+				console.log(pssw1)
+				console.log("function works for now")
+				//create a ajax call to the url and build the new account here 
+			
+			}
+			
+			//function that hides the current div and populates the create account div
+			function create() {
+				//if the create new account option is selected...hide the current div and poopulate the new divs
+				document.getElementById("1").style.display="none";
+				document.getElementById("user1").style.display="none";
+				document.getElementById("user2").style.display="none";
+				document.getElementById("signIN").style.display="none";
+				document.getElementById("bttn1").style.display="none";
+				document.getElementById("bttn2").style.display="none";
+				//upadate new ones
+				document.getElementById("2").style.display="block";
+				document.getElementById("new1").style.display="block";
+				document.getElementById("new2").style.display="block";
+				document.getElementById("new3").style.display="block";
+				document.getElementById("new4").style.display="block";
+				document.getElementById("new5").style.display="block";
+				document.getElementById("new6").style.display="block";
+			}
+			
+			//in the create account function...if the back button is encountered...bring back to original div 
+			function retreat() {
+				//if the back button is pressed..hide the new div and populate the old div
+				document.getElementById("1").style.display="block";
+				document.getElementById("user1").style.display="block";
+				document.getElementById("user2").style.display="block";
+				document.getElementById("signIN").style.display="block";
+				document.getElementById("bttn1").style.display="block";
+				document.getElementById("bttn2").style.display="block";
+				//upadate new ones
+				document.getElementById("2").style.display="none";
+				document.getElementById("new1").style.display="none";
+				document.getElementById("new2").style.display="none";
+				document.getElementById("new3").style.display="none";
+				document.getElementById("new4").style.display="none";
+				document.getElementById("new5").style.display="none";
+				document.getElementById("new6").style.display="none";
+			}
+		</script>
+	</head>
+	
+	
+	<body>
+		<h1> WELCOME TO THE SHAPE GAME </h1>
+		<div id="1"> PLEASE LOGIN IN TO PLAY </div>
+		
+		<div id="signIN" class="sign-in" align="center"> SIGN IN </div>
+		<br>
+		<br>
+		<div id="user1" align="center"> ENTER YOUR USERNAME: <input id="ID" type="text"/></div> <br>
+		<div id="user2" align="center"> ENTER YOUR PASSWORD: <input id="password" type="password"/></div> <br>
+		
+		<button id="bttn1" class="button" onclick="verifyExisiting()">LOGIN</button>
+		<br>
+		<br>
+		<button id="bttn2" class="button" onclick="create()" style="background: none; border: none">CLICK HERE TO CREATE A NEW ACCOUNT</button>
+		
+		<div id="2" style="display:none;"> CREATE NEW ACCOUNT TO PLAY </div>
+		<div id="new1" align="center" style="display:none;"> ENTER NAME: <input id="name" type="text"/></div> <br>
+		<div id="new2" align="center" style="display:none;"> ENTER USER NAME: <input id="userName" type="text"/></div> <br>
+		<div id="new3" align="center" style="display:none;"> ENTER PASSWORD: <input id="newPass" type="password"/></div> <br>
+		<div id="new4" align="center" style="display:none;"> CONFIRM PASSWORD: <input id="newPass1" type="password"/></div> <br>
+		<button id="new6" class="button" onclick="verfiyNew()" style="display:none;">CLICK HERE TO MAKE NEW ACCOUNT</button>
+		<br><br>
+		<button id="new5" class="button" onclick="retreat()" style="display:none;">BACK</button>
+		
+	</body>
+</html>
