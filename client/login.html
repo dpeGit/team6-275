@@ -9,46 +9,28 @@
 		
 		<script>
 			function verifyExisiting() {
-				var userName = (document.getElementById("ID").value);
-				var password = (document.getElementById("password").value);
+				var userName = document.getElementById("ID").value;
+				var password = document.getElementById("password").value;
 				if ( userName == "" || password == "") {
 					alert("PLEASE ENTER ALL FIELDS");
-					}
-				else {
-					alert("works here")
-					console.log(userName)
-					console.log(password)
-				
-				//CREATE AN AJAX CALL TO THE DATABASE HERE TO ENSURE THAT THE USERNAME AND PASSWORD ARE ALREADY REGISTERED
-			 }
+				} else {
+					//ajax here
+				}
 			}
 			
 			function verfiyNew() {
-				var name = (document.getElementById("name").value);
-				var userName = (document.getElementById("userName").value);
-				var pssw1 = (document.getElementById("newPass").value);
-				var pssw2 = (document.getElementById("newPass1").value);
+				var name = document.getElementById("name").value;
+				var userName = document.getElementById("userName").value;
+				var pssw1 = document.getElementById("newPass").value;
+				var pssw2 = document.getElementById("newPass1").value;
 				if (name == "" || userName == "" || pssw1 == "" || pssw2 == ""){
 					alert("PLEASE ENTER ALL FIELDS");
-				}
-				else {
-					if (pssw1 != pssw2) {
-						alert("PASSWORDS DO NOT MATCH");
-					}
-					else {
-						send2server(name, userName, pssw1);
-					}
+				} else if (pssw1 != pssw2) {
+					alert("PASSWORDS DO NOT MATCH");
+				} else {
+					//ajax here
 				}
 			}	
-			
-			function send2server(name, userName, pssw1){
-				console.log(name)
-				console.log(userName)
-				console.log(pssw1)
-				console.log("function works for now")
-				//create a ajax call to the url and build the new account here 
-			
-			}
 			
 			//function that hides the current div and populates the create account div
 			function create() {
@@ -87,6 +69,15 @@
 				document.getElementById("new5").style.display="none";
 				document.getElementById("new6").style.display="none";
 			}
+			//inprogress
+			function hashPassword(pw){
+				var r = 576; //bitrate
+				var c = 1024;//capacity
+				var l = 512; //output length
+				var out = null; //final out
+			}
+
+
 		</script>
 	</head>
 	
