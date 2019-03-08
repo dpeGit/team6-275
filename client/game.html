@@ -1,0 +1,62 @@
+<!doctype HTML>
+
+<html>
+	<title>CS275 Final Project</title>
+
+	<head>
+		<link type="text/css" rel="stylesheet" href="general.css" >
+		<link type="text/css" rel="stylesheet" href="sidePanel.css" >
+		
+		<!-- UI Scripts -->
+		<script>
+			function openPanel(){
+				document.getElementById("sidePanel").style.width = "250px";
+			}
+			
+			function closePanel() {
+				document.getElementById("sidePanel").style.width = "0";
+			}
+		</script>
+		
+		<script>
+			var countClicks = 0;
+    
+            function countInc() { 
+				countClicks += 1;
+				document.getElementById("output").innerHTML = "Score: " + countClicks;
+				
+            }
+		</script>
+		
+	</head>
+
+	<body>
+		<h1> Shape Game!!! </h1>
+		<div id="headingBorder"></div>
+		
+		<!-- Side Panel -->
+		<div id="sidePanel" class="sideNav">
+			<a href="javascript:void(0)" class="closePanel" onclick="closePanel()">&times;</a>
+			<a href="#">Temp1</a>
+			<a href="#">Temp2</a>
+			<a href="#">Temp3</a>
+			<a href="#">Temp4</a>
+		</div>		
+		<span style="font-size:30px;cursor:pointer" onclick="openPanel()">&#9776;</span>
+		
+		<!-- Main button task and point div -->
+		<br><br>
+		Shop and Upgrades
+		
+		
+		<!-- Main button task and point div -->
+		<form align=>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<p><input type="button" style="float: right;" value="Press Here" id="click" onclick="countInc();"/></p>
+			<br><br>
+			<div id="output" align="right"></div>
+		</form>
+		
+	</body>
+
+</html>

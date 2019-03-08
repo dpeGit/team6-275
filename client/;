@@ -14,9 +14,7 @@
 				if ( userName == "" || password == "") {
 					alert("PLEASE ENTER ALL FIELDS");
 				} else {
-					var hpw = hashPassword(password);
-					console.log(hpw);
-					document.getElementById("out").innerHTML = hpw;
+					hashPassword(password);
 				}
 			}
 			
@@ -107,7 +105,7 @@
 				for (var i = 0; i < msg.length; i+= blocksize){
 					for (var j = 0; j < R/W; j++){
 						var lo   = (msg.charCodeAt(i+j*8+0)<<0)
-							 + (msg.charCodeAt(i+j*8+1)<<8)
+							 + (msg.charCodeAt(i+j*8+1)<<0)
 							 + (msg.charCodeAt(i+j*8+2)<<16)
 							 + (msg.charCodeAt(i+j*8+3)<<24);
 
@@ -118,12 +116,12 @@
 
 						var x = j % 5;
 						var y = Math.floor(j/5);
-						state[x][y].lo = state[x][y].lo ^ lo;
+						state[x][y].lo =state[x][y].lo ^ lo;
 						state[x][y].hi = state[x][y].hi ^ hi;
 					}
 				}
 
-				//some important hash perameters
+					//some important hash perameters
 				const nRounds = 24;
 				const RC = [
 					'0000000000000001', '0000000000008082', '800000000000808a',
@@ -173,27 +171,17 @@
 					}
 
 					for (var j = 0; j < 5; j++){
-						var c = [];
-						for (var k = 0; k < 5; k++) c[k] = state[k][j].clone();
+					var c = [];
+					for (var k = 0; k < 5; k++) c[k] = state[k][j].clone();
 						for (var k = 0; k < 5; k++){
 				 			state[k][j].hi = (c[k].hi ^ ((~c[(k+1)%5].hi) & c[(k+2)%5].hi)) >>> 0;
 						 	state[k][j].lo = (c[k].lo ^ ((~c[(k+1)%5].lo) & c[(k+2)%5].lo)) >>> 0;
 						}
 					}
 						
-					state[0][0].hi = (state[0][0].hi ^ RC[i].hi) >>> 0;
-					state[0][0].lo = (state[0][0].lo ^ RC[i].lo) >>> 0;
+					state[0][0].hi = (state[0][0].hi ^ RC[r].hi) >>> 0;
+					state[0][0].lo = (state[0][0].lo ^ RC[r].lo) >>> 0;
 				}
-
-				//okay nearly at the home streatch now
-				var md = transpose(state).map(plane => plane.map(lane => lane.toString().match(/.{2}/g).reverse().join('')).join('')).join('').slice(0, L/4);
-				md = md.match(/.{8,16}/g).join('');
-
-				return md;
-			}
-
-			function transpose(array){
-				return array.map((row, r) => array.map(col => col[r]));
 			}
 
 			/*
@@ -233,13 +221,6 @@
 					var [ hi, lo ] = str.match(/.{8}/g).map(i32 => parseInt(i32, 16));
 					return new Sha3Long(hi, lo);
 				}
-
-				toString() {
-					var hi = ('00000000'+this.hi.toString(16)).slice(-8);
-					var lo = ('00000000'+this.lo.toString(16)).slice(-8);
-					return hi + lo;
-				}
-
 			}
 			
 			/*
@@ -255,7 +236,6 @@
 	
 	<body>
 		<h1> WELCOME TO THE SHAPE GAME </h1>
-		<div id="headingBoarder"></div>
 		<div id="1"> PLEASE LOGIN IN TO PLAY </div>
 		
 		<div id="signIN" class="sign-in" align="center"> SIGN IN </div>
@@ -265,7 +245,6 @@
 		<div id="user2" align="center"> ENTER YOUR PASSWORD: <input id="password" type="password"/></div> <br>
 		
 		<button id="bttn1" class="button" onclick="verifyExisiting()">LOGIN</button>
-		<div id="out"></div>
 		<br>
 		<br>
 		<button id="bttn2" class="button" onclick="create()" style="background: none; border: none">CLICK HERE TO CREATE A NEW ACCOUNT</button>
