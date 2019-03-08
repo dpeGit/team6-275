@@ -37,7 +37,7 @@ con.connect(function(err){
 app.use(express.static(path.join(__dirname, 'client'))); // add the client folder to the path
 
 app.get('/', function (req, res){
-		console.log('Recieved'); res.sendFile('index.html')
+		console.log('Recieved'); res.sendFile(__dirname + '/client/login.html');
 });
 
 app.listen(port, () => console.log('Listening on ' + port + "..."));
