@@ -7,7 +7,7 @@
 			<!-- Our Main Stylesheet -->
 		<link type="text/css" rel="stylesheet" href="general.css" >
 		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery.min.js"></script>		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script>
 			function verifyExisiting() {
 				var userName = document.getElementById("ID").value;
@@ -22,7 +22,7 @@
 							data: { 'type'     : 'login',
 									'userName' : userName,
 									'password' : hwp
-							}
+							},
 							success: function (msg){ //broken
 									console.log(msg);
 							}
@@ -49,7 +49,7 @@
 										'lastName' : lastName,
 										'userName' : userName,
 										'password' : hwp
-								}
+								},
 								success: function (msg){ //broken
 										console.log(msg);
 								}
@@ -278,7 +278,7 @@
 	
 	<body>
 		<h1> WELCOME TO THE SHAPE GAME </h1>
-		<div id="headingBoarder"></div>
+		<div id="headingBorder"></div>
 		<div id="1"> PLEASE LOGIN IN TO PLAY </div>
 		
 		<div id="signIN" class="sign-in" align="center"> SIGN IN </div>

@@ -16,10 +16,10 @@ con.connect(function (err){
 });
 
 app.use(express.static(path.join(__dirname, 'client/css/'))); // add the client folder to the path
-
+console.log(__dirname);
 app.get('/', function (req, res){
 		if (req.method == 'POST'){
-				//post stuff here
+				
 		} else{
 			console.log('Recieved'); res.sendFile(__dirname + '/client/login.html');
 		}
