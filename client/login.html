@@ -23,7 +23,7 @@
 									'userName' : userName,
 									'password' : hwp
 							},
-							success: function (msg){ //broken
+							success: function (msg){
 									console.log(msg);
 							}
 					});
@@ -31,11 +31,12 @@
 			}
 			
 			function verfiyNew() {
-				var name = document.getElementById("name").value;
+				var firstName = document.getElementById("name").value;
+				var lastName = document.getElementById("name10").value;
 				var userName = document.getElementById("userName").value;
 				var pssw1 = document.getElementById("newPass").value;
 				var pssw2 = document.getElementById("newPass1").value;
-				if (name == "" || userName == "" || pssw1 == "" || pssw2 == ""){
+				if (firstName == "" || lastName == "" || userName == "" || pssw1 == "" || pssw2 == ""){
 					alert("PLEASE ENTER ALL FIELDS");
 				} else if (pssw1 != pssw2) {
 					alert("PASSWORDS DO NOT MATCH");
@@ -50,7 +51,7 @@
 										'userName' : userName,
 										'password' : hwp
 								},
-								success: function (msg){ //broken
+								success: function (msg){ 
 										console.log(msg);
 								}
 						});
@@ -297,7 +298,7 @@
 		
 		<div id="2" style="display:none;"> CREATE NEW ACCOUNT TO PLAY </div>
 		<div id="new1" align="center" style="display:none;"> ENTER FIRST NAME: <input id="name" type="text"/></div> <br>
-		<div id="new10" align="center" style="display:none;"> ENTER LAST NAME: <input id="name" type="text"/></div> <br>
+		<div id="new10" align="center" style="display:none;"> ENTER LAST NAME: <input id="name10" type="text"/></div> <br>
 		<div id="new2" align="center" style="display:none;"> ENTER USER NAME: <input id="userName" type="text"/></div> <br>
 		<div id="new3" align="center" style="display:none;"> ENTER PASSWORD: <input id="newPass" type="password"/></div> <br>
 		<div id="new4" align="center" style="display:none;"> CONFIRM PASSWORD: <input id="newPass1" type="password"/></div> <br>
