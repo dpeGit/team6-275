@@ -15,13 +15,13 @@
 				if ( userName == "" || password == "") {
 					alert("PLEASE ENTER ALL FIELDS");
 				} else {
-					var hpw = hashPassword(password);
+					var hashPass = hashPassword(password);
 					$.ajax({
 							type: 'POST',
 							url : 'https://team6.dpeserver.me',
 							data: { 'type'     : 'login',
 									'userName' : userName,
-									'password' : hwp
+									'password' : hashPass
 							},
 							success: function (msg){
 									console.log(msg);
@@ -41,7 +41,7 @@
 				} else if (pssw1 != pssw2) {
 					alert("PASSWORDS DO NOT MATCH");
 				} else {
-						var hpw = hashPassword(pssw1);
+						var hashPass = hashPassword(pssw1);
 						$.ajax({
 								type: 'POST',
 								url:  'https://team6.dpeserver.me',
@@ -49,7 +49,7 @@
 										'firstName': firstName,
 										'lastName' : lastName,
 										'userName' : userName,
-										'password' : hwp
+										'password' : hashPass
 								},
 								success: function (msg){ 
 										console.log(msg);
