@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
+const bodyparser = require('body-parser');
 
 const app = express();
 const port = 3000; // Our proxy port
@@ -17,19 +18,17 @@ con.connect(function (err){
 
 app.use(express.static(path.join(__dirname, 'client/css/'))); // add the client folder to the path
 
+//body parse setup
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
+
 app.get('/', function (req, res){
-		if (req.method == 'POST'){
-				let body = '';
-				req.on('data', chunck => {
-						body += chunk.toString();
-				});
-				req.on('end', () => {
-						console.log(body);
-						res.sent('done');
-				});
-		} else{
-			console.log('Recieved'); res.sendFile(__dirname + '/client/login.html');
-		}
+		console.log('Recieved'); 
+		res.sendFile(__dirname + '/client/login.html');
+});
+
+app.post('/', function (req, res){
+		console.log(req.body);
 });
 
 app.listen(port, () => console.log('Listening on ' + port + "..."));
