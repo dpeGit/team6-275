@@ -18,15 +18,22 @@
 			}
 		</script>
 		
+		
 		<script>
-			var countClicks = 0;
-    
-            function countInc() { 
-				countClicks += 1;
-				document.getElementById("output").innerHTML = "Score: " + countClicks;
-				
-            }
+			function scoreboardDisplay(){
+				document.getElementById("go2Scoreboard").style.display="block";
+				//upadate new ones
+				document.getElementById("revert").style.display="none";
+			}
+			
+			function MainGame() {
+				document.getElementById("go2Scoreboard").style.display="none";
+				//upadate new ones
+				document.getElementById("revert").style.display="block";
+			}
 		</script>
+		
+		
 		
 	</head>
 
@@ -44,18 +51,18 @@
 		</div>		
 		<span style="font-size:30px;cursor:pointer" onclick="openPanel()">&#9776;</span>
 		
-		<!-- Main button task and point div -->
-		<br><br>
-		Shop and Upgrades
-		
-		
-		<!-- Main button task and point div -->
-		<form align=>
-			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-			<p><input type="button" style="float: right;" value="Press Here" id="click" onclick="countInc();"/></p>
+		<div id="mainGame">
 			<br><br>
-			<div id="output" align="right"></div>
-		</form>
+		<button id="go2Scoreboard" class="button" onclick="scoreboardDisplay()" style="display:none;"> Scoreboard</button>
+		</div>
+		
+		<div id="scoreBoard" style="display:none;">
+			<br><br>
+			<button id="revert" class="button" onclick="MainGame()" style="display:none;">BACK</button>
+		</div>
+		
+		
+		
 		
 	</body>
 
