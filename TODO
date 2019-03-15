@@ -1,0 +1,26 @@
+Server Side
+
+	Sessions
+		Only allow logged in players to the game.html file
+	
+	Sanitize inputs
+		Harden against sql injection
+		Ensure account information is valid
+
+	Serve save file
+
+	Global leader board
+
+Client side
+
+	UI
+		Finish Basic UI
+			Game screen
+				Shop
+				Play area
+			Leaderboard
+				Display high scores
+
+	Game
+		Parce save json from server
+		Some kind of functionality
