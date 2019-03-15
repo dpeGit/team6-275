@@ -21,20 +21,47 @@
 		
 		<script>
 			function scoreboardDisplay(){
-				document.getElementById("go2Scoreboard").style.display="block";
+				document.getElementById("scoreBoard").style.display="block";
 				//upadate new ones
-				document.getElementById("revert").style.display="none";
+				document.getElementById("mainGame").style.display="none";
+				document.getElementById("shop").style.display="none";
+				document.getElementById("learn").style.display="none";
+				closePanel();
 			}
 			
 			function MainGame() {
-				document.getElementById("go2Scoreboard").style.display="none";
+				document.getElementById("mainGame").style.display="block";
 				//upadate new ones
-				document.getElementById("revert").style.display="block";
+				document.getElementById("scoreBoard").style.display="none";
+				document.getElementById("shop").style.display="none";
+				document.getElementById("learn").style.display="none";
+				closePanel();
 			}
-		</script>
-		
-		
-		
+			
+			function shopScreen() {
+				document.getElementById("shop").style.display="block";
+				//upadate new ones
+				document.getElementById("scoreBoard").style.display="none";
+				document.getElementById("mainGame").style.display="none";
+				document.getElementById("learn").style.display="none";
+				closePanel();
+			}
+			
+			function how2play() {
+				document.getElementById("learn").style.display="block";
+				//upadate new ones
+				document.getElementById("scoreBoard").style.display="none";
+				document.getElementById("mainGame").style.display="none";
+				document.getElementById("shop").style.display="none";
+				closePanel();
+			}
+			
+			function endSession() {
+				alert("Thank you for playing.");
+				alert("Logging out");
+				//matt please place the code to redirect the page back to login
+			}
+		</script>		
 	</head>
 
 	<body>
@@ -44,26 +71,63 @@
 		<!-- Side Panel -->
 		<div id="sidePanel" class="sideNav">
 			<a href="javascript:void(0)" class="closePanel" onclick="closePanel()">&times;</a>
-			<a href="#">Temp1</a>
-			<a href="#">Temp2</a>
-			<a href="#">Temp3</a>
-			<a href="#">Temp4</a>
+			<a href="#" onclick="MainGame()">Main Game</a>
+			<a href="#" onclick="scoreboardDisplay()">Leader board</a>
+			<a href="#" onclick="shopScreen()">Shop</a>
+			<a href="#" onclick="how2play()">Learn the Rules</a>
 		</div>		
+		
 		<span style="font-size:30px;cursor:pointer" onclick="openPanel()">&#9776;</span>
 		
 		<div id="mainGame">
-			<br><br>
-		<button id="go2Scoreboard" class="button" onclick="scoreboardDisplay()" style="display:none;"> Scoreboard</button>
+			<p> You are at the main game </p>
 		</div>
 		
 		<div id="scoreBoard" style="display:none;">
-			<br><br>
-			<button id="revert" class="button" onclick="MainGame()" style="display:none;">BACK</button>
+				<p> You are at the scoreboard</p>
+				<p>This is a place holder...obviously the table depends on the database information</p>
+				<br><br>
+				<table>
+					  <tr>
+						<th>USER NAME:</th>
+						<th>SCORE:</th>
+					  </tr>
+					  <tr>
+						<td>PERSON1</td>
+						<td>PERSON1 SCORE</td>
+					  </tr>
+					  <tr>
+						<td>PERSON2</td>
+						<td>PERSON2 SCORE</td>
+					  </tr>
+					  <tr>
+						<td>PERSON3</td>
+						<td>PERSON3 SCORE</td>
+					  </tr>
+					  <tr>
+						<td>PERSON4</td>
+						<td>PERSON4 SCORE</td>
+					  </tr>
+					  <tr>
+						<td>PERSON5</td>
+						<td>PERSON5 SCORE</td>
+					  </tr>
+					   <tr>
+						<td>PERSON6</td>
+						<td>PERSON6 SCORE</td>
+					  </tr>
+				</table>
 		</div>
 		
+		<div id="shop" style="display:none;">
+				<p> You are at the shop</p>
+		</div>
 		
+		<div id="learn" style="display:none;">
+				<p> You are at the learning center</p>
+		</div>
 		
-		
+		<button class="logout" onclick="endSession">LOGOUT</button>
 	</body>
 
 </html>
