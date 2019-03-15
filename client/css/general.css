@@ -52,4 +52,32 @@ pre code {
 	right: 30%;
 	text-align: left;
         }
+		
+button.logout {
+     line-height: 12px;
+     width: 120px;
+     margin-top: 1px;
+     margin-right: 2px;
+     position:absolute;
+     top:0;
+     right:0;
+	 background: #0DA58C;
+	 color: #FFFFFF;
+	 border: none;
+	 font-size: 80%;
+	 font-family: Trebuchet MS, Helvetica, sans-serif;
+	 background-color: #f44336;
+ }
+ 
+ table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
 
