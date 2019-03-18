@@ -69,24 +69,32 @@ app.post('/', function (req, res){
 //handles logins
 function login(req, res){
 		var body = req.body;
-		var sqlAuth = `SELECT * FROM users WHERE userName='${body.userName}'`;
-		con.query(sqlAuth, function(err, result){
-				if (result.length == 0){
-						res.end('User does not exist');
-				} else{
-						var sql = `SELECT * FROM users WHERE userName='${body.userName}' AND password='${body.password}'`;
-						con.query(sql, function(err, result){
-								if (result.length == 0){
-										console.log(`Recieved bad password from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
-										res.end('Invalid password');
-								} else {
-										console.log(`Sucessful login from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
-										req.session.user = body.userName;
-										res.end('Login successful');
-								}
-						});
-				}
-		});
+		if(isBad(body.userName) || isBad(body.password)){
+				res.send({redirect: false, result: 'User Name can only contain A-Z a-z . - _'});
+				res.end();
+		}else{
+				var sqlAuth = `SELECT * FROM users WHERE userName='${body.userName}'`;
+				con.query(sqlAuth, function(err, result){
+						if (result.length == 0){
+								res.send({redirect: false, result: 'User does not exist'});
+								res.end();
+						} else{
+								var sql = `SELECT * FROM users WHERE userName='${body.userName}' AND password='${body.password}'`;
+								con.query(sql, function(err, result){
+										if (result.length == 0){
+												console.log(`Recieved bad password from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
+												res.send({redirect: false, result: 'Invalid password'});
+												res.end();
+										} else {
+												console.log(`Sucessful login from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
+												req.session.user = body.userName;
+												res.send({redirect: true, result: 'Login successful'});
+												res.end();
+										}
+								});
+						}
+				});
+		}
 }
 
 //handles creation of new users
@@ -97,22 +105,37 @@ function newUser(req, res){
 		for ( i in body ){
 				var blankFields = '';
 				if (body[i] == '') blankFields += `${i} is blank. `; 
-				if (blankFields != '') { res.send(blankFields); return; }
+				if (blankFields != '') { res.send({redirect: false, result: blankFields}); res.end(); return; }
 		}
 
-		var sql = `SELECT * FROM users WHERE userName='${body.userName}'`;
-		con.query(sql, function(err, result){
-				if(result.length > 0) {
-						res.end('User name is already taken');
-				} else {
-						var sqlNew = 'INSERT INTO users (firstName, lastName, userName, salt, password)'; 
-						sqlNew += `VALUES ('${body.firstName}', '${body.lastName}', '${body.userName}', 'salt', '${body.password}')`;
-						con.query(sqlNew, function(err, result){
-								console.log(`Sucessful newUser from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
-								req.session.user = body.userName;
-								res.end('newUser successful');
-						});
-				}
-		});
+		if(isBad(body.userName) || isBad(body.password) || isBad(body.firstName) || isBad(body.lastName)){
+				res.send({redirect: false, result: 'Name fields can only contain A-Z a-z . - _'});
+				res.end();
+		} else{
+				var sql = `SELECT * FROM users WHERE userName='${body.userName}'`;
+				con.query(sql, function(err, result){
+						if(result.length > 0) {
+								res.send({redirect: false, result: 'User name is already taken'});
+								res.end();
+						} else {
+								var sqlNew = 'INSERT INTO users (firstName, lastName, userName, salt, password)'; 
+								sqlNew += `VALUES ('${body.firstName}', '${body.lastName}', '${body.userName}', 'salt', '${body.password}')`;
+								con.query(sqlNew, function(err, result){
+										console.log(`Sucessful newUser from ${req.headers['x-forwarded-for']} under login ${body.userName}`);
+										req.session.user = body.userName;
+										res.send({redirect: true, result: 'newUser successful'});
+										res.end();
+								});
+						}
+				});
+		}
+}
+
+function isBad(input){
+		if(/[^A-Za-z0-9\-_.]/g.test(input)){
+				return true;
+		}else{
+				return false;
+		}
 }
 app.listen(port, () => console.log('Listening on ' + port + "..."));
