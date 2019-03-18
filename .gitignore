@@ -3,3 +3,6 @@ node_modules
 
 # working copies
 *.working*
+
+# logs
+*.log
