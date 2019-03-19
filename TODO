@@ -1,8 +1,4 @@
 Server Side
-	
-	Sanitize inputs
-		Harden against sql injection
-		Ensure account information is valid
 
 	Serve save file
 
