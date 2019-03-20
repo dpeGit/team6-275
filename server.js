@@ -30,13 +30,12 @@ app.use(session({
 		cookie: {
 				secure: true,
 				httpOnly: true,
-				maxAge: 1 * 60 * 1000
+				maxAge: 1 * 59 * 1000
 		}
 })
 );
 var logged = {};
-//setInterval(() => console.log('logged in users: ' + Object.keys(logged)), 1 * 10 * 1000);
-setInterval(() => console.log(logged), 5000);
+setInterval(() => console.log('logged in users: ' + Object.keys(logged)), 15 * 60 * 1000);
 
 //basic rate limiting
 const limiter = rateLimit({
@@ -108,7 +107,7 @@ app.get('/game', pageLimiter, function (req, res) {
 				console.log(`invalid session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
 				res.redirect('/');
 		} else {
-				console.log(`session authenticated from ${underline + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
+				console.log(`session authenticated from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
 				res.sendFile(__dirname + '/client/game.html');
 		}
 });
@@ -129,6 +128,7 @@ app.post('/logout', function (req, res){
 		}
 });
 app.post('/load', function(req, res){
+		keepAlive(req.session);
 		sqlLoad = `SELECT * FROM saveData WHERE userName='${req.session.user}'`
 		pool.query(sqlLoad, function(err, result){
 				if (err) throw err;
@@ -147,13 +147,15 @@ app.post('/load', function(req, res){
 });
 
 app.post('/save', function (req, res){
-		keepAlive(req.session)
-		sqlSave = `UPDATE saveData SET score=${req.body.score} WHERE userName='${req.session.user}'`
-		pool.query(sqlSave, function(err, result){
-				if (err) throw err;
-				res.send('save sucessful');
-				res.end();
-		});
+		if(typeof logged[req.session.user] !== "undefined"){
+				keepAlive(req.session)
+				sqlSave = `UPDATE saveData SET score=${req.body.score} WHERE userName='${req.session.user}'`
+				pool.query(sqlSave, function(err, result){
+						if (err) throw err;
+						res.send('save sucessful');
+						res.end();
+				});
+		}
 });
 
 //handles logins
@@ -252,6 +254,7 @@ function newUser(req, res){
 								pool.query(sqlNew, function(err, result){
 										console.log(`${green}successful newUser from ${inverse + ip + reset + green} on user ${underline + body.userName + reset}`);
 										req.session.user = body.userName;
+										logged[body.userName] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 60 * 1000)};
 										res.send({redirect: true, result: 'newUser successful'});
 										res.end();
 								});
@@ -269,8 +272,7 @@ function isBad(input){
 }
 
 function keepAlive(session){
-		if (session.user != undefined){
-				session.touch();
+		if (typeof logged[session.user] !== "undefined"){
 				clearTimeout(logged[session.user].timeout);
 				logged[session.user].timeout = setTimeout(() => delete logged[session.user], 1 * 60 * 1000);
 		}
