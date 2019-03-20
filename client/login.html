@@ -18,9 +18,8 @@
 					var hashPass = hashPassword(password);
 					$.ajax({
 							type: 'POST',
-							url : 'https://team6.dpeserver.me',
-							data: { 'type'     : 'login',
-									'userName' : userName,
+							url : 'https://team6.dpeserver.me/login',
+							data: {	'userName' : userName,
 									'password' : hashPass
 							},
 							success: function (msg){
@@ -44,9 +43,8 @@
 						var hashPass = hashPassword(pssw1);
 						$.ajax({
 								type: 'POST',
-								url:  'https://team6.dpeserver.me',
-								data: { 'type'     : 'newUser',
-										'firstName': firstName,
+								url:  'https://team6.dpeserver.me/newUser',
+								data: {	'firstName': firstName,
 										'lastName' : lastName,
 										'userName' : userName,
 										'password' : hashPass

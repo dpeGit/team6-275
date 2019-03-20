@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const bodyparser = require('body-parser');
 const session = require('express-session');
 const timeStamp = require('console-stamp');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const port = 3000; // Our proxy port
@@ -33,6 +34,32 @@ app.use(session({
 })
 );
 
+//basic rate limiting
+const limiter = rateLimit({
+		windowMS: 15 * 60 * 1000,
+		max: 1000,
+		message: 'pls stop botting'
+});
+app.use(limiter);
+
+const pageLimiter = rateLimit({
+		windowMS: 15 * 60 * 1000,
+		max: 25
+});
+
+const loginLimiter = rateLimit({
+		windowMS: 15 * 60 * 1000,
+		max: 25,
+		message: 'too many login requests in a row, try again in 15 minutes'
+});
+
+const newUserLimiter = rateLimit({
+		windowMS: 60 * 60 * 1000,
+		max: 5,
+		message: 'too many new accounts created in a row, try again in an hour'
+});
+
+//logging things
 const reset     = '\x1b[0m';
 const inverse   = '\x1b[7m';
 const underline = '\x1b[4m';
@@ -49,12 +76,13 @@ app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
 //login page
-app.get('/', function (req, res){
+app.get('/', pageLimiter, function (req, res){
 		console.log(`recieved request from ${inverse + req.headers['x-forwarded-for'] + reset}`);
 		res.sendFile(__dirname + '/client/login.html');
 });
 
-app.get('/game', function (req, res) {
+//game endpoint
+app.get('/game', pageLimiter, function (req, res) {
 		if (req.session.user == null){
 				console.log(`invalid Session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
 				res.redirect('/');
@@ -64,13 +92,12 @@ app.get('/game', function (req, res) {
 		}
 });
 
-//login post request
-app.post('/', function (req, res){
-		if (req.body.type == 'login'){
-				login(req, res);
-		} else if (req.body.type == 'newUser'){
-				newUser(req, res);
-		}
+//login post requests
+app.post('/login', loginLimiter, function (req, res){
+		login(req, res);
+});
+app.post('/newUser', newUserLimiter, function (req, res){
+		newUser(req, res);
 });
 
 //handles logins
