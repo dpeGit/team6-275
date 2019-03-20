@@ -6,7 +6,10 @@
 	<head>
 		<link type="text/css" rel="stylesheet" href="general.css" >
 		<link type="text/css" rel="stylesheet" href="sidePanel.css" >
-		
+		<link type="text/css" rel="stylesheet" href="game.css" >
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="game.js"></script>
 		<!-- UI Scripts -->
 		<script>
 			function openPanel(){
@@ -37,7 +40,8 @@
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
-			
+		
+/*
 			function shopScreen() {
 				document.getElementById("shop").style.display="block";
 				//upadate new ones
@@ -46,7 +50,7 @@
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
-			
+*/			
 			function how2play() {
 				document.getElementById("learn").style.display="block";
 				//upadate new ones
@@ -55,16 +59,11 @@
 				document.getElementById("shop").style.display="none";
 				closePanel();
 			}
-			
-			function endSession() {
-				alert("Thank you for playing.");
-				alert("Logging out");
-				//matt please place the code to redirect the page back to login
-			}
 		</script>		
 	</head>
 
 	<body>
+		<span id="openPanel" onclick="openPanel()">&#9776;</span>
 		<h1> Shape Game!!! </h1>
 		<div id="headingBorder"></div>
 		
@@ -73,14 +72,17 @@
 			<a href="javascript:void(0)" class="closePanel" onclick="closePanel()">&times;</a>
 			<a href="#" onclick="MainGame()">Main Game</a>
 			<a href="#" onclick="scoreboardDisplay()">Leader board</a>
-			<a href="#" onclick="shopScreen()">Shop</a>
 			<a href="#" onclick="how2play()">Learn the Rules</a>
 		</div>		
 		
-		<span style="font-size:30px;cursor:pointer" onclick="openPanel()">&#9776;</span>
+		
 		
 		<div id="mainGame">
-			<p> You are at the main game </p>
+				<div id="shop">shop goes here</div>
+				<div id="gameArea">
+						<div id="score"></div>
+						<button class="button" id="mainButton" onclick="incScore();">Click Me!</button>
+				</div>
 		</div>
 		
 		<div id="scoreBoard" style="display:none;">
@@ -127,7 +129,7 @@
 				<p> You are at the learning center</p>
 		</div>
 		
-		<button class="logout" onclick="endSession">LOGOUT</button>
+		<button id="logout" onclick="logout()">LOGOUT</button>
 	</body>
 
 </html>

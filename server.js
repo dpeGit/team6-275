@@ -26,37 +26,57 @@ app.use(session({
 		resave: false,
 		saveUninitialized: true,
 		proxy: true,
+		rolling: true,
 		cookie: {
 				secure: true,
 				httpOnly: true,
-				maxAge: 30 * 60 * 1000
+				maxAge: 1 * 60 * 1000
 		}
 })
 );
+var logged = {};
+//setInterval(() => console.log('logged in users: ' + Object.keys(logged)), 1 * 10 * 1000);
+setInterval(() => console.log(logged), 5000);
 
 //basic rate limiting
 const limiter = rateLimit({
 		windowMS: 15 * 60 * 1000,
 		max: 1000,
-		message: 'pls stop botting'
+		message: 'pls stop botting',
+		onLimitReached: function(req, res){
+				console.log(`${red}spam limit reached by ${inverse + req.headers['x-forwarded-for'] + reset}`);
+				res.end();
+		}
 });
 app.use(limiter);
 
 const pageLimiter = rateLimit({
 		windowMS: 15 * 60 * 1000,
-		max: 25
+		max: 50,
+		onLimitReached: function(req, res){
+				console.log(`${yellow}page limit reached by ${inverse + req.headers['x-forwarded-for'] + reset}`);
+				res.end();
+		}
 });
 
 const loginLimiter = rateLimit({
 		windowMS: 15 * 60 * 1000,
 		max: 25,
-		message: 'too many login requests in a row, try again in 15 minutes'
+		message: 'too many login requests in a row, try again in 15 minutes',
+		onLimitReached: function(req, res){
+				console.log(`${red}login limit reached by ${inverse + req.headers['x-forwarded-for'] + reset}`);
+				res.end();
+		}
 });
 
 const newUserLimiter = rateLimit({
 		windowMS: 60 * 60 * 1000,
 		max: 5,
-		message: 'too many new accounts created in a row, try again in an hour'
+		message: 'too many new accounts created in a row, try again in an hour',
+		onLimitReached: function(req, res){
+				console.log(`${red}newUser limit reached by ${inverse + req.headers['x-forwarded-for'] + reset}`);
+				res.end();
+		}
 });
 
 //logging things
@@ -67,9 +87,10 @@ const blue      = '\x1b[34m';
 const yellow    = '\x1b[33m';
 const red       = '\x1b[31m';
 const green     = '\x1b[32m';
-timeStamp(console, {pattern: 'HH:MM:ss', label: false});
+timeStamp(console, {pattern: 'yyyy-mm-dd HH:MM:ss', label: false});
 
-app.use(express.static(path.join(__dirname, 'client/css/'))); // add the client folder to the path
+app.use(express.static(path.join(__dirname, 'client/css/'))); // add the css folder to the path
+app.use(express.static(path.join(__dirname, 'client/js/')));  // add the js folder to the path
 
 //body parse setup
 app.use(bodyparser.urlencoded({ extended: false }));
@@ -84,7 +105,7 @@ app.get('/', pageLimiter, function (req, res){
 //game endpoint
 app.get('/game', pageLimiter, function (req, res) {
 		if (req.session.user == null){
-				console.log(`invalid Session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
+				console.log(`invalid session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
 				res.redirect('/');
 		} else {
 				console.log(`session authenticated from ${underline + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
@@ -98,6 +119,41 @@ app.post('/login', loginLimiter, function (req, res){
 });
 app.post('/newUser', newUserLimiter, function (req, res){
 		newUser(req, res);
+});
+app.post('/logout', function (req, res){
+		if (req.session.user != null){
+				console.log(`logout from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
+				delete logged[req.session.user];
+				req.session.destroy();
+				res.end();
+		}
+});
+app.post('/load', function(req, res){
+		sqlLoad = `SELECT * FROM saveData WHERE userName='${req.session.user}'`
+		pool.query(sqlLoad, function(err, result){
+				if (err) throw err;
+				if (result.length == 0){
+						sqlInit = `INSERT INTO saveData (userName, score) VALUES ('${req.session.user}', 0)`
+						pool.query(sqlInit, function (err, result){
+								if (err) throw err;
+								res.send('init');
+								res.end();
+						});
+				} else {
+						res.send(result[0]);
+						res.end();
+				}
+		});
+});
+
+app.post('/save', function (req, res){
+		keepAlive(req.session)
+		sqlSave = `UPDATE saveData SET score=${req.body.score} WHERE userName='${req.session.user}'`
+		pool.query(sqlSave, function(err, result){
+				if (err) throw err;
+				res.send('save sucessful');
+				res.end();
+		});
 });
 
 //handles logins
@@ -131,10 +187,17 @@ function login(req, res){
 												res.send({redirect: false, result: 'Invalid user name and password combo'});
 												res.end();
 										} else {
-												console.log(`${green}sucessful login from ${inverse + ip + reset + green} on user ${underline + body.userName + reset}`);
-												req.session.user = body.userName;
-												res.send({redirect: true, result: 'Login successful'});
-												res.end();
+												if (logged[body.userName] != null && logged[body.userName].id != req.session.id){
+														//maybe logging later
+														res.send({redirect: false, result: 'You are already logged in elsewhere, please logout of your device'});
+														res.end();
+												} else{
+														console.log(`${green}sucessful login from ${inverse + ip + reset + green} on user ${underline + body.userName + reset}`);
+														req.session.user = body.userName;
+														logged[body.userName] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 60 * 1000)};
+														res.send({redirect: true, result: 'Login successful'});
+														res.end();
+												}
 										}
 								});
 						}
@@ -205,4 +268,12 @@ function isBad(input){
 		}
 }
 
+function keepAlive(session){
+		if (session.user != undefined){
+				session.touch();
+				clearTimeout(logged[session.user].timeout);
+				logged[session.user].timeout = setTimeout(() => delete logged[session.user], 1 * 60 * 1000);
+		}
+}
+		
 app.listen(port, () => console.log('Listening on ' + port + "..."));

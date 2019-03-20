@@ -53,20 +53,18 @@ pre code {
 	text-align: left;
         }
 		
-button.logout {
-     line-height: 12px;
-     width: 120px;
-     margin-top: 1px;
-     margin-right: 2px;
+button#logout {
+     line-height: 20px;
+     width: 100px;
      position:absolute;
-     top:0;
-     right:0;
+     top:0px;
+     right:-120px;
 	 background: #0DA58C;
 	 color: #FFFFFF;
 	 border: none;
 	 font-size: 80%;
 	 font-family: Trebuchet MS, Helvetica, sans-serif;
-	 background-color: #f44336;
+	 background-color: #E42336;
  }
  
  table {
