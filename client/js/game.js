@@ -79,7 +79,7 @@ function incScore(n){
 
 function build(n){
 		var curCost = buildingCost(n, gameData[`building${n}`]);
-		if (gameData.currency > curCost){
+		if (gameData.currency >= curCost){
 				gameData.currency -= curCost
 				gameData[`building${n}`] += 1;
 		}
