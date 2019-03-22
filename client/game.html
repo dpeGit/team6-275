@@ -1,6 +1,6 @@
 <!doctype HTML>
 
-<html>
+<html>x
 	<title>CS275 Final Project</title>
 
 	<head>
@@ -20,8 +20,17 @@
 				document.getElementById("sidePanel").style.width = "0";
 			}
 		</script>
-		
-		
+		<script>
+			function buildshop() {
+				document.getElementById("shop1").style.display = "block";
+				document.getElementById("shop2").style.display = "none";
+			}
+			
+			function upshop() {
+				document.getElementById("shop2").style.display = "block";
+				document.getElementById("shop1").style.display = "none";
+			}
+		</script>		
 		<script>
 			function scoreboardDisplay(){
 				document.getElementById("scoreBoard").style.display="block";
@@ -59,7 +68,24 @@
 				document.getElementById("shop").style.display="none";
 				closePanel();
 			}
-		</script>		
+		</script>
+		<style>
+			#shop1, .flip{
+				text-align: center;
+				font-size: 16px;
+			}
+			#shop2, .flip{
+				text-align: center;
+				font-size: 16px;
+			}
+			#shop1 {
+				display: none;
+				}
+			
+			#shop2 {
+				display: none;
+				}
+		</style>
 	</head>
 
 	<body>
@@ -78,7 +104,12 @@
 		
 		
 		<div id="mainGame">
-				<div id="shop">shop goes here</div>
+				<div id="shopheader">
+					<button class="button" id="buildings" onclick="buildshop()";">Buildings</button>
+					<button class="button" id="upgrades" onclick="upshop();">Upgrades</button>
+				</div>
+				<div id="shop1">buildings</div>
+				<div id="shop2">upgrades</div>
 				<div id="gameArea">
 						<div id="score"></div>
 						<button class="button" id="mainButton" onclick="incScore();">Click Me!</button>
