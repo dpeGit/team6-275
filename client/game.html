@@ -1,6 +1,6 @@
 <!doctype HTML>
 
-<html>x
+<html>
 	<title>CS275 Final Project</title>
 
 	<head>
@@ -36,7 +36,7 @@
 				document.getElementById("scoreBoard").style.display="block";
 				//upadate new ones
 				document.getElementById("mainGame").style.display="none";
-				document.getElementById("shop").style.display="none";
+				//document.getElementById("shop").style.display="none";
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
@@ -45,7 +45,7 @@
 				document.getElementById("mainGame").style.display="block";
 				//upadate new ones
 				document.getElementById("scoreBoard").style.display="none";
-				document.getElementById("shop").style.display="block";
+				//document.getElementById("shop").style.display="none";
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
@@ -65,7 +65,7 @@
 				//upadate new ones
 				document.getElementById("scoreBoard").style.display="none";
 				document.getElementById("mainGame").style.display="none";
-				document.getElementById("shop").style.display="none";
+				//document.getElementById("shop").style.display="none";
 				closePanel();
 			}
 		</script>
@@ -104,6 +104,7 @@
 		
 		
 		<div id="mainGame">
+<<<<<<< HEAD
 				<div id="shopheader">
 					<button class="button" id="buildings" onclick="buildshop()";>Buildings</button>
 					<button class="button" id="upgrades" onclick="upshop();">Upgrades</button>
@@ -114,6 +115,20 @@
 						<div id="score"></div>
 						<button class="button" id="mainButton" onclick="incScore();">Click Me!</button>
 				</div>
+=======
+		</div>
+		<div id="shop">
+			<div id="shopheader">
+				<button class="button" id="buildings" onclick="buildshop()";">Buildings</button>
+				<button class="button" id="upgrades" onclick="upshop();">Upgrades</button>
+			</div>
+			<div id="shop1">buildings</div>
+			<div id="shop2">upgrades</div>
+			<div id="gameArea">
+					<div id="score"></div>
+					<button class="button" id="mainButton" onclick="incScore();">Click Me!</button>
+			</div>
+>>>>>>> 24d961beb4ad970bd67473d809a040090ff2e349
 		</div>
 		
 		<div id="scoreBoard" style="display:none;">
@@ -150,16 +165,18 @@
 					  </tr>
 				</table>
 		</div>
-		
+		<!--
 		<div id="shop" style="display:none;">
 				<p> You are at the shop</p>
 		</div>
+		-->
 		
 		<div id="learn" style="display:none;">
 				<p> Welcome to the learning center:</p>  
 				<p> You can use the side bar menu to navigate between the main area that encompasses the game and shop.</p>
 				<p> Use the scoreboard tab to see the top scores and leaders. You can click the button to accumulate points. </p>
 				<p> Use the shop to buy items when sufficient points are accumulated </p>
+				<p> You are at the learning center</p>
 		</div>
 		
 		<button id="logout" onclick="logout(true)">LOGOUT</button>
