@@ -45,7 +45,7 @@
 				document.getElementById("mainGame").style.display="block";
 				//upadate new ones
 				document.getElementById("scoreBoard").style.display="none";
-				document.getElementById("shop").style.display="none";
+				document.getElementById("shop").style.display="block";
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
@@ -118,7 +118,6 @@
 		
 		<div id="scoreBoard" style="display:none;">
 				<p> You are at the scoreboard</p>
-				<p>This is a place holder...obviously the table depends on the database information</p>
 				<br><br>
 				<table>
 					  <tr>
@@ -157,7 +156,9 @@
 		</div>
 		
 		<div id="learn" style="display:none;">
-				<p> You are at the learning center</p>
+				<p> Welcome to the learning center:</p>  
+				<p> You can use the side bar menu to navigate between the main area that encompasses the game and shop.</p>
+				<p> Use the shop to buy items when sufficient points are accumulated </p>
 		</div>
 		
 		<button id="logout" onclick="logout()">LOGOUT</button>

@@ -23,8 +23,16 @@
 									'password' : hashPass
 							},
 							success: function (msg){
-									console.log(msg);
+								if (msg.redirect){
+									window.location.href = "https://team6.dpeserver.me/game";
+								}
+								
+								else{
+									alert(msg.result);
+								
+								}
 							}
+							
 					});
 				}
 			}
@@ -50,7 +58,14 @@
 										'password' : hashPass
 								},
 								success: function (msg){ 
-										console.log(msg);
+									if (msg.redirect){
+									window.location.href = "https://team6.dpeserver.me/game";
+								}
+								
+								else{
+									alert(msg.result);
+								
+								}
 								}
 						});
 				}
