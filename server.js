@@ -101,17 +101,19 @@ app.get('/', pageLimiter, function (req, res){
 		res.sendFile(__dirname + '/client/login.html');
 });
 
+const testing = true; //just for testing will remove this later
+
 //game endpoint
 app.get('/game', pageLimiter, function (req, res) {
 		if (req.session.user == null){
 				console.log(`invalid session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
 				res.redirect('/');
-		} else if (typeof logged[req.session.user] === 'undefined'){
+		} else if (typeof logged[req.session.user] === 'undefined' || testing){
 				console.log(`session authenticated from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
-				logged[req.session.user] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 30 * 1000)};
+				logged[req.session.user] = {id: req.session.id, timeout: setTimeout(() => delete logged[req.session.user], 1 * 30 * 1000)};
 				res.sendFile(__dirname + '/client/game.html');
 		} else {
-				res.end('You are logged in else where please logout from that device. If you lost connection please wait 30 seconds');
+				res.sendFile(__dirname + '/client/loginerror.html');
 		}
 });
 
@@ -126,7 +128,7 @@ app.post('/logout', function (req, res){
 		if (req.session.user != null){
 				console.log(`logout from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
 				delete logged[req.session.user];
-				req.session.destroy();
+				if (req.body.hardlogout == 'true') {req.session.destroy(); console.log('test');}
 				res.end();
 		}
 });

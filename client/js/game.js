@@ -8,7 +8,7 @@ var saveLoop = null;
 init();
 
 window.onbeforeunload = function(){
-		save();
+		logout(false);
 		return null;
 };
 
@@ -39,7 +39,8 @@ function save(){
 		});
 }
 
-function logout(){
+function logout(hardlogout){
+		save();
 		$.ajax({
 				type: 'POST',
 				url:  'https://team6.dpeserver.me/save',
@@ -47,6 +48,7 @@ function logout(){
 				success: () => 	$.ajax({
 									type: 'POST',
 									url:  'https://team6.dpeserver.me/logout',
+									data: {hardlogout: hardlogout},
 									success: () => window.location = 'https://team6.dpeserver.me/'
 								})
 		});
