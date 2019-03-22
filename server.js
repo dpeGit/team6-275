@@ -132,6 +132,7 @@ app.post('/logout', function (req, res){
 				res.end();
 		}
 });
+
 app.post('/load', function(req, res){
 		keepAlive(req.session);
 		sqlLoad = `SELECT * FROM saveData WHERE userName='${req.session.user}'`
@@ -161,6 +162,17 @@ app.post('/save', function (req, res){
 						res.end();
 				});
 		}
+});
+
+app.post('/leaderboard', function (req, res){
+		var toDisplay = parseInt(req.body.num);
+		if (isNaN(toDisplay) || toDisplay > 100 || toDisplay < 1) toDisplay = 10; //defualt case
+		var sqlLead = `SELECT userName, score FROM saveData ORDER BY score DESC LIMIT ${toDisplay}`
+		pool.query(sqlLead, function(err, result){
+				if (err) throw err;
+				res.send(result);
+				res.end();
+		});
 });
 
 //handles logins
