@@ -4,6 +4,10 @@
 		height: 100%;
 }
 
+.monospace {
+		font-family: Andelo mono, monospace;
+}
+
 #shop{
 		height: 100%;
 		width: 40%;
@@ -28,11 +32,9 @@
 		background-color: #404040;
 }
 #shop1, .flip{
-		text-align: center;
 		font-size: 16px;
 }
 #shop2, .flip{
-		text-align: center;
 		font-size: 16px;
 }
 #shop1 {

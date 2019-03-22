@@ -35,7 +35,19 @@ body {
         }
 
 .button:hover{
-	background: #0BC7AE;
+	background: #2DC5AC;
+	     }
+
+.button2 {
+	background: #C01B52;
+	color: #FFFFFF;
+	border: none;
+	font-size: 120%;
+	font-family: Trebuchet MS, Helvetica, sans-serif;
+        }
+
+.button2:hover{
+	background: #E03B72;
 	     }
 
 code {
@@ -66,16 +78,3 @@ button#logout {
 	 font-family: Trebuchet MS, Helvetica, sans-serif;
 	 background-color: #E42336;
  }
- 
- table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 8px;
-}
-
