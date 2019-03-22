@@ -26,13 +26,13 @@ function init(){
 				type: 'POST',
 				url:  'https://team6.dpeserver.me/load',
 				success: function(res){
-						if (result == 'init'){
+						if (res == 'init'){
 								init();
 						} else {
 								console.log(res);
 								gameData.score = parseInt(res.score);
-								for (var i = 1; i <= numBuildings; i++{
-										gameData[`building${i}`] = parseInt(res[`buildings${i}]);
+								for (var i = 1; i <= numBuildings; i++){
+										gameData[`'building${i}'`] = parseInt(res[`'building${i}'`]);
 								}
 								saveLoop = setTimeout(save, 15 * 1000);
 								updateScore();
@@ -73,7 +73,7 @@ function incScore(){
 }
 
 function build(n){
-		gameData[`building${n}`] += 1;
+		gameData[`'building${n}'`] += 1;
 		updateBuildings();
 }
 
@@ -83,5 +83,6 @@ function updateScore(){
 
 function updateBuildings(){
 		for (var  i = 1; i <= numBuildings; i++){
-				document.getElementById(`buildings${i}`) = gameData[`buildings${i}`)
+				document.getElementById(`'build${i}'`).innerHTML = gameData[`'building${i}'`]
 		}
+}
