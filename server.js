@@ -30,7 +30,7 @@ app.use(session({
 		cookie: {
 				secure: true,
 				httpOnly: true,
-				maxAge: 1 * 59 * 1000
+				maxAge: 15 * 60 * 1000
 		}
 })
 );
@@ -106,9 +106,12 @@ app.get('/game', pageLimiter, function (req, res) {
 		if (req.session.user == null){
 				console.log(`invalid session from ${inverse + req.headers['x-forwarded-for'] + reset} redirecting to /`);
 				res.redirect('/');
-		} else {
+		} else if (typeof logged[req.session.user] === 'undefined'){
 				console.log(`session authenticated from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
+				logged[req.session.user] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 30 * 1000)};
 				res.sendFile(__dirname + '/client/game.html');
+		} else {
+				res.end('You are logged in else where please logout from that device. If you lost connection please wait 30 seconds');
 		}
 });
 
@@ -189,14 +192,13 @@ function login(req, res){
 												res.send({redirect: false, result: 'Invalid user name and password combo'});
 												res.end();
 										} else {
-												if (logged[body.userName] != null && logged[body.userName].id != req.session.id){
+												if (logged[body.userName] != null){
 														//maybe logging later
-														res.send({redirect: false, result: 'You are already logged in elsewhere, please logout of your device'});
+														res.send({redirect: false, result: 'You are already logged in elsewhere, please logout of your device. If your connection was closed unexpectedly please wait 30 seconds.'});
 														res.end();
 												} else{
 														console.log(`${green}sucessful login from ${inverse + ip + reset + green} on user ${underline + body.userName + reset}`);
 														req.session.user = body.userName;
-														logged[body.userName] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 60 * 1000)};
 														res.send({redirect: true, result: 'Login successful'});
 														res.end();
 												}
@@ -254,7 +256,6 @@ function newUser(req, res){
 								pool.query(sqlNew, function(err, result){
 										console.log(`${green}successful newUser from ${inverse + ip + reset + green} on user ${underline + body.userName + reset}`);
 										req.session.user = body.userName;
-										logged[body.userName] = {id: req.session.id, timeout: setTimeout(() => delete logged[body.userName], 1 * 60 * 1000)};
 										res.send({redirect: true, result: 'newUser successful'});
 										res.end();
 								});
@@ -274,7 +275,7 @@ function isBad(input){
 function keepAlive(session){
 		if (typeof logged[session.user] !== "undefined"){
 				clearTimeout(logged[session.user].timeout);
-				logged[session.user].timeout = setTimeout(() => delete logged[session.user], 1 * 60 * 1000);
+				logged[session.user].timeout = setTimeout(() => delete logged[session.user], 1 * 30 * 1000);
 		}
 }
 		
