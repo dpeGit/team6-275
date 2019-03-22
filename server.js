@@ -164,9 +164,9 @@ app.post('/save', function (req, res){
 		}
 });
 
-app.post('/leaderboard', function (req, res){
-		var toDisplay = parseInt(req.body.num);
-		if (isNaN(toDisplay) || toDisplay > 100 || toDisplay < 1) toDisplay = 10; //defualt case
+app.get('/leaderboard', function (req, res){
+		var toDisplay = parseInt(req.query.num);
+		if (isNaN(toDisplay) || toDisplay > 100 || toDisplay < 1 || typeof toDisplay === 'undefined') toDisplay = 10; //defualt case
 		var sqlLead = `SELECT userName, score FROM saveData ORDER BY score DESC LIMIT ${toDisplay}`
 		pool.query(sqlLead, function(err, result){
 				if (err) throw err;

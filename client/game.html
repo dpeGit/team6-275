@@ -33,6 +33,7 @@
 		</script>		
 		<script>
 			function scoreboardDisplay(){
+				getLeaderboard();
 				document.getElementById("scoreBoard").style.display="block";
 				//upadate new ones
 				document.getElementById("mainGame").style.display="none";
@@ -49,7 +50,6 @@
 				document.getElementById("learn").style.display="none";
 				closePanel();
 			}
-		
 /*
 			function shopScreen() {
 				document.getElementById("shop").style.display="block";
@@ -67,6 +67,26 @@
 				document.getElementById("mainGame").style.display="none";
 				//document.getElementById("shop").style.display="none";
 				closePanel();
+			}
+
+			function getLeaderboard(){
+					var toDisplay = document.getElementById("toDisplay").value;
+					var out = document.getElementById("leaderboard");
+					$.ajax({
+							type: 'GET',
+							url:  'https://team6.dpeserver.me/leaderboard',
+							data: {num: toDisplay},
+							success: function(res){
+									var row = out.insertRow();
+									row.insertCell().innerHTML = 'User';
+									row.insertCell().innerHTML = 'Score';
+									for(var i = 0; i < res.length; i++){
+											row = out.insertRow();
+											row.insertCell().innerHTML = res[i].userName;
+											row.insertCell().innerHTML = res[i].score;
+									}
+							}
+					});
 			}
 		</script>
 		<style>
@@ -120,37 +140,11 @@
 		</div>
 		
 		<div id="scoreBoard" style="display:none;">
-				<p> You are at the scoreboard</p>
+				<p> Leaderboard</p>
 				<br><br>
-				<table>
-					  <tr>
-						<th>USER NAME:</th>
-						<th>SCORE:</th>
-					  </tr>
-					  <tr>
-						<td>PERSON1</td>
-						<td>PERSON1 SCORE</td>
-					  </tr>
-					  <tr>
-						<td>PERSON2</td>
-						<td>PERSON2 SCORE</td>
-					  </tr>
-					  <tr>
-						<td>PERSON3</td>
-						<td>PERSON3 SCORE</td>
-					  </tr>
-					  <tr>
-						<td>PERSON4</td>
-						<td>PERSON4 SCORE</td>
-					  </tr>
-					  <tr>
-						<td>PERSON5</td>
-						<td>PERSON5 SCORE</td>
-					  </tr>
-					   <tr>
-						<td>PERSON6</td>
-						<td>PERSON6 SCORE</td>
-					  </tr>
+				<input id="toDisplay" type="number" min="1" max="100" value="10">
+				<button class="button" id="getLeaderboard" onclick="getLeaderboard()">Get Leaderboard</button>
+				<table id="leaderboard">
 				</table>
 		</div>
 
