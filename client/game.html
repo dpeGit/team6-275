@@ -69,23 +69,6 @@
 				closePanel();
 			}
 		</script>
-		<style>
-			#shop1, .flip{
-				text-align: center;
-				font-size: 16px;
-			}
-			#shop2, .flip{
-				text-align: center;
-				font-size: 16px;
-			}
-			#shop1 {
-				display: none;
-				}
-			
-			#shop2 {
-				display: none;
-				}
-		</style>
 	</head>
 
 	<body>
@@ -115,8 +98,38 @@
 				<button class="button" id="buildings" onclick="buildshop();">Buildings</button>
 				<button class="button" id="upgrades" onclick="upshop();">Upgrades</button>
 			</div>
-			<div id="shop1">buildings</div>
-			<div id="shop2">upgrades</div>
+			<div id="shop1">
+				<table align = "center">
+					<tr>
+						<th><button class="button" id="building1" onclick="build1();">Building1</button></th>
+						<th><button class="button" id="building2" onclick="build2();">Building2</button></th>
+					</tr>
+					<tr>
+						<th><button class="button" id="building3" onclick="build1();">Building3</button></th>
+						<th><button class="button" id="building4" onclick="build2();">Building4</button></th>
+					</tr>
+					<tr>
+						<th><button class="button" id="building5" onclick="build1();">Building5</button></th>
+						<th><button class="button" id="building6" onclick="build2();">Building6</button></th>
+					</tr>
+				</table>
+			</div>
+			<div id="shop2">
+				<table align="center">
+					<tr>
+						<th><button class="button" id="upgrade1" onclick="up1();">Upgrade1</button></th>
+						<th><button class="button" id="upgrade2" onclick="up2();">Upgrade2</button></th>
+					</tr>
+					<tr>
+						<th><button class="button" id="upgrade3" onclick="up3();">Upgrade3</button></th>
+						<th><button class="button" id="upgrade4" onclick="up4();">Upgrade4</button></th>
+					</tr>
+					<tr>
+						<th><button class="button" id="upgrade5" onclick="up5();">Upgrade5</button></th>
+						<th><button class="button" id="upgrade6" onclick="up7();">Upgrade6</button></th>
+					</tr>
+				</table>
+			</div>
 		</div>
 		
 		<div id="scoreBoard" style="display:none;">
