@@ -27,3 +27,17 @@
 		padding-top: 20px;
 		background-color: #404040;
 }
+#shop1, .flip{
+		text-align: center;
+		font-size: 16px;
+}
+#shop2, .flip{
+		text-align: center;
+		font-size: 16px;
+}
+#shop1 {
+		display: none;
+}
+#shop2 {
+		display: none;
+}
