@@ -128,7 +128,7 @@ app.post('/logout', function (req, res){
 		if (req.session.user != null){
 				console.log(`logout from ${inverse + req.headers['x-forwarded-for'] + reset} on user ${underline + req.session.user + reset}`);
 				delete logged[req.session.user];
-				if (req.body.hardlogout == 'true') {req.session.destroy(); console.log('test');}
+				if (req.body.hardlogout == 'true') {req.session.destroy();}
 				res.end();
 		}
 });
@@ -139,7 +139,7 @@ app.post('/load', function(req, res){
 		pool.query(sqlLoad, function(err, result){
 				if (err) throw err;
 				if (result.length == 0){
-						sqlInit = `INSERT INTO saveData (userName, score) VALUES ('${req.session.user}', 0)`
+						sqlInit = `INSERT INTO saveData (userName) VALUES ('${req.session.user}')`
 						pool.query(sqlInit, function (err, result){
 								if (err) throw err;
 								res.send('init');
@@ -154,8 +154,13 @@ app.post('/load', function(req, res){
 
 app.post('/save', function (req, res){
 		if(typeof logged[req.session.user] !== "undefined"){
-				keepAlive(req.session)
-				sqlSave = `UPDATE saveData SET score=${req.body.score} WHERE userName='${req.session.user}'`
+				keepAlive(req.session);
+				var sqlSave = 'UPDATE saveData SET ';
+				for (i in req.body){
+						sqlSave += `${i}=${req.body[i]}, `;
+				}
+				sqlSave = sqlSave.substring(0, sqlSave.length - 2); //strip off last ', '
+				sqlSave += ` WHERE userName='${req.session.user}'`;
 				pool.query(sqlSave, function(err, result){
 						if (err) throw err;
 						res.send('save sucessful');
