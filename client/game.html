@@ -72,6 +72,7 @@
 			function getLeaderboard(){
 					var toDisplay = document.getElementById("toDisplay").value;
 					var out = document.getElementById("leaderboard");
+					out.innerHTML = '';
 					$.ajax({
 							type: 'GET',
 							url:  'https://team6.dpeserver.me/leaderboard',
